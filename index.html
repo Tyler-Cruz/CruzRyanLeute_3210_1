@@ -10,6 +10,11 @@
     <script type="module">
 import * as THREE from 'three';
 
+//random positions
+function getRandom(min, max){
+  return Math.random() * (max - min) + min;
+}
+
 //creates a canvas in the shape of an octagon
 function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h, hCol){
     //makes triangles to form the shape of an octagon
@@ -71,10 +76,38 @@ function Triangle (a, aCol, b, bCol, c, cCol) {
 }
 
 function puzzleShapes(){
-// 4 right triangles, 6 rectangles
-
-//create the rectangles out of triangle function
-
+  let shapes = [];
+    
+    // Create 10 shapes (random rectangles and triangles)
+    for(let i = 0; i < 6; i++) {
+        let randX = getRandom(-0.5, 0.5);
+        let randY = getRandom(-0.5, 0.5);
+        
+        // Create rectangle shapes as pairs of triangles
+        let square = new Square(
+            [randX, randY, 0], [Math.random(), 0, 0], 
+            [randX + 0.1, randY, 0], [0, Math.random(), 0], 
+            [randX + 0.1, randY + 0.1, 0], [0, 0, Math.random()], 
+            [randX, randY + 0.1, 0], [Math.random(), Math.random(), 0]
+        );
+        shapes.push(square);
+    }
+    
+    // Create random triangles
+    for(let i = 0; i < 4; i++) {
+        let randX = getRandom(-0.5, 0.5);
+        let randY = getRandom(-0.5, 0.5);
+        
+        let triangle = new Triangle(
+            [randX, randY, 0], [Math.random(), 0, 0],
+            [randX + 0.1, randY, 0], [0, Math.random(), 0], 
+            [randX, randY + 0.1, 0], [0, 0, Math.random()]
+        );
+        shapes.push(triangle);
+    }
+    
+    // Render the shapes
+    shapes.forEach(shape => shape.render());
 
 
 }
@@ -96,6 +129,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 //creates a red octagon to be the canvas of the puzzle
 var octagon = new Canvas([0.14, .3, 0],[1,0,0],[.3, 0.14, 0],[1,0,0],[ .3, -0.14, 0],[1,0,0],[0.14, -.3, 0],[1,0,0],[-0.14, -.3, 0],[1,0,0],[-.3, -0.14, 0],[1,0,0],[-.3, 0.14, 0],[1,0,0],[-0.14, .3, 0],[1,0,0]);
 octagon.render();
+
+puzzleShapes();
 
 
 // 10 hardcoded triangular pieces (basis for location, dimensions/shape fo can be changed)
