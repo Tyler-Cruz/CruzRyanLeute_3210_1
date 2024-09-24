@@ -73,6 +73,10 @@ function Triangle (a, aCol, b, bCol, c, cCol) {
     var material = new THREE.MeshBasicMaterial( { vertexColors: true } );
     this.mesh= new THREE.Mesh( geometry, material );
     scene.add(this.mesh);
+
+    //add mesh to drag list
+    draggableObjects.push(this.mesh);
+
   }	
 }
 
@@ -127,43 +131,58 @@ renderer.setPixelRatio(document.getElementById('myCanvas').devicePixelRatio);
 // If you want the render to span the window, uncomment this
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+// Array for objects to drag
+var draggableObjects = [];
+
 //creates a red octagon to be the canvas of the puzzle
 var octagon = new Canvas([0.14, .3, 0],[1,0,0],[.3, 0.14, 0],[1,0,0],[ .3, -0.14, 0],[1,0,0],[0.14, -.3, 0],[1,0,0],[-0.14, -.3, 0],[1,0,0],[-.3, -0.14, 0],[1,0,0],[-.3, 0.14, 0],[1,0,0],[-0.14, .3, 0],[1,0,0]);
 octagon.render();
 
 puzzleShapes();
 
+//Drag setup
+var controls = new DragControls(draggableObjects, camera, renderer.domElement);
+
+// event listeners for drag control events
+controls.addEventListener('dragstart', function (event) {
+    event.object.material.opacity = 0.5;
+});
+
+controls.addEventListener('dragend', function (event) {
+    event.object.material.opacity = 1; 
+});
+
 
 // 10 hardcoded triangular pieces (basis for location, dimensions/shape fo can be changed)
-var piece1 = new Triangle([0.3,0.3,0], [1,0,0], [0.5,0.3,0], [1,0,0], [0.5,0.5,0], [1,0,0]);
-piece1.render();
+// var piece1 = new Triangle([0.3,0.3,0], [1,0,0], [0.5,0.3,0], [1,0,0], [0.5,0.5,0], [1,0,0]);
+// piece1.render();
 
-var piece2 = new Triangle([-0.3,-0.3,0], [1,0,0], [-0.5,-0.3,0], [1,0,0], [-0.5,-0.5,0], [1,0,0]);
-piece2.render();
+// var piece2 = new Triangle([-0.3,-0.3,0], [1,0,0], [-0.5,-0.3,0], [1,0,0], [-0.5,-0.5,0], [1,0,0]);
+// piece2.render();
 
-var piece3 = new Triangle([0.5,-0.5,0], [1,0,0], [0.7,-0.5,0], [1,0,0], [0.7,-0.3,0], [1,0,0]);
-piece3.render();
+// var piece3 = new Triangle([0.5,-0.5,0], [1,0,0], [0.7,-0.5,0], [1,0,0], [0.7,-0.3,0], [1,0,0]);
+// piece3.render();
 
-var piece4 = new Triangle([0.4,0,0], [1,0,0], [0.6,0,0], [1,0,0], [0.6,0.2,0], [1,0,0]);
-piece4.render();
+// var piece4 = new Triangle([0.4,0,0], [1,0,0], [0.6,0,0], [1,0,0], [0.6,0.2,0], [1,0,0]);
+// piece4.render();
 
-var piece5 = new Triangle([-0.3,0.6,0], [1,0,0], [-0.3,0.4,0], [1,0,0], [-0.1,0.4,0], [1,0,0]);
-piece5.render();
+// var piece5 = new Triangle([-0.3,0.6,0], [1,0,0], [-0.3,0.4,0], [1,0,0], [-0.1,0.4,0], [1,0,0]);
+// piece5.render();
 
-var piece6 = new Triangle([-0.5,0.5,0], [1,0,0], [-0.5,0.3,0], [1,0,0], [-0.3,0.3,0], [1,0,0]);
-piece6.render();
+// var piece6 = new Triangle([-0.5,0.5,0], [1,0,0], [-0.5,0.3,0], [1,0,0], [-0.3,0.3,0], [1,0,0]);
+// piece6.render();
 
-var piece7 = new Triangle([0,0.4,0], [1,0,0], [0.2,0.6,0], [1,0,0], [0,0.6,0], [1,0,0]);
-piece7.render();
+// var piece7 = new Triangle([0,0.4,0], [1,0,0], [0.2,0.6,0], [1,0,0], [0,0.6,0], [1,0,0]);
+// piece7.render();
 
-var piece8 = new Triangle([0,-0.4,0], [1,0,0], [0,-0.6,0], [1,0,0], [0.2,-0.6,0], [1,0,0]);
-piece8.render();
+// var piece8 = new Triangle([0,-0.4,0], [1,0,0], [0,-0.6,0], [1,0,0], [0.2,-0.6,0], [1,0,0]);
+// piece8.render();
 
-var piece9 = new Triangle([-0.1,-0.7,0], [1,0,0], [-0.3,-0.7,0], [1,0,0], [-0.3,-0.9,0], [1,0,0]);
-piece9.render();
+// var piece9 = new Triangle([-0.1,-0.7,0], [1,0,0], [-0.3,-0.7,0], [1,0,0], [-0.3,-0.9,0], [1,0,0]);
+// piece9.render();
 
-var piece10 = new Triangle([-0.5,0,0], [1,0,0], [-0.5,0.2,0], [1,0,0], [-0.7,0,0], [1,0,0]);
-piece10.render();
+// var piece10 = new Triangle([-0.5,0,0], [1,0,0], [-0.5,0.2,0], [1,0,0], [-0.7,0,0], [1,0,0]);
+// piece10.render();
 
 // Essentially, this creates the "Frames-per-second" loop
 function animate() {
