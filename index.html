@@ -115,15 +115,15 @@ function puzzleShapes(){
     
     // Create 10 shapes (random rectangles and triangles)
     for(let i = 0; i < 6; i++) {
-        let randX = getRandom(-0.5, 0.5);
-        let randY = getRandom(-0.5, 0.5);
+        let randX = getRandom(-0.3, 0.3);
+        let randY = getRandom(-0.3, 0.3);
         
         // Create rectangle shapes as pairs of triangles
         let square = new Square(
             [randX, randY, 0], [Math.random(), 0, 0], 
-            [randX + 0.1, randY, 0], [0, Math.random(), 0], 
-            [randX + 0.1, randY + 0.1, 0], [0, 0, Math.random()], 
-            [randX, randY + 0.1, 0], [Math.random(), Math.random(), 0]
+            [randX + 0.15, randY, 0], [0, Math.random(), 0], 
+            [randX + 0.15, randY + 0.15, 0], [0, 0, Math.random()], 
+            [randX, randY + 0.15, 0], [Math.random(), Math.random(), 0]
         );
         shapes.push(square);
     }
@@ -135,8 +135,8 @@ function puzzleShapes(){
         
         let triangle = new Triangle(
             [randX, randY, 0], [Math.random(), 0, 0],
-            [randX + 0.1, randY, 0], [0, Math.random(), 0], 
-            [randX, randY + 0.1, 0], [0, 0, Math.random()]
+            [randX + 0.15, randY, 0], [0, Math.random(), 0], 
+            [randX, randY + 0.15, 0], [0, 0, Math.random()]
         );
         shapes.push(triangle);
     }
