@@ -17,14 +17,30 @@ function getRandom(min, max){
 }
 
 //creates a canvas in the shape of an octagon
-function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h, hCol){
+function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h, hCol, i, iCol, j, jCol, k, kCol, l, lCol, m, mCol, n, nCol, o, oCol, p, pCol){
     //makes triangles to form the shape of an octagon
-    this.tri1 = new Triangle(a, aCol, c, cCol, b, bCol);
-    this.tri2 = new Triangle(a, aCol, d, dCol, c, cCol);
-    this.tri3 = new Triangle(a, aCol, e, eCol, d, dCol);
-    this.tri4 = new Triangle(a, aCol, f, fCol, e, eCol);
-    this.tri5 = new Triangle(a, aCol, g, gCol, f, fCol);
-    this.tri6 = new Triangle(a, aCol, h, hCol, g, gCol);
+    this.tri1 = new Triangle(a, aCol, d, dCol, e, eCol);
+    this.tri2 = new Triangle(a, aCol, e, eCol, b, bCol);
+    this.tri3 = new Triangle(b, bCol, e, eCol, f, fCol);
+    this.tri4 = new Triangle(b, bCol, f, fCol, c, cCol);
+    this.tri5 = new Triangle(c, cCol, f, fCol, g, gCol);
+    this.tri6 = new Triangle(c, cCol, g, gCol, h, hCol);
+    this.tri7 = new Triangle(d, dCol, i, iCol, e, eCol);
+    this.tri8 = new Triangle(e, eCol, i, iCol, j, jCol);
+    this.tri9 = new Triangle(e, eCol, j, jCol, f, fCol);
+    this.tri10 = new Triangle(f, fCol, j, jCol, k, kCol);
+    this.tri11 = new Triangle(f, fCol, k, kCol, g, gCol);
+    this.tri12 = new Triangle(g, gCol, k, kCol, l, lCol);
+    this.tri13 = new Triangle(g, gCol, l, lCol, h, hCol);
+    this.tri14 = new Triangle(h, hCol, l, lCol, m, mCol);
+    this.tri15 = new Triangle(i, iCol, n, nCol, j, jCol);
+    this.tri16 = new Triangle(j, jCol, n, nCol, k, kCol);
+    this.tri17 = new Triangle(k, kCol, n, nCol, o, oCol);
+    this.tri18 = new Triangle(k, kCol, o, oCol, l, lCol);
+    this.tri19 = new Triangle(l, lCol, o, oCol, p, pCol);
+    this.tri20 = new Triangle(l, lCol, p, pCol, m, mCol);
+    
+
 
     this.render = function(){
         this.tri1.render();
@@ -33,6 +49,20 @@ function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h
         this.tri4.render();
         this.tri5.render();
         this.tri6.render();
+        this.tri7.render();
+        this.tri8.render();
+        this.tri9.render();
+        this.tri10.render();
+        this.tri11.render();
+        this.tri12.render();
+        this.tri13.render();
+        this.tri14.render();
+        this.tri15.render();
+        this.tri16.render();
+        this.tri17.render();
+        this.tri18.render();
+        this.tri19.render();
+        this.tri20.render();
 
     }
 }
@@ -135,7 +165,13 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 var draggableObjects = [];
 
 //creates a red octagon to be the canvas of the puzzle
-var octagon = new Canvas([0.14, .3, 0],[1,0,0],[.3, 0.14, 0],[1,0,0],[ .3, -0.14, 0],[1,0,0],[0.14, -.3, 0],[1,0,0],[-0.14, -.3, 0],[1,0,0],[-.3, -0.14, 0],[1,0,0],[-.3, 0.14, 0],[1,0,0],[-0.14, .3, 0],[1,0,0]);
+var octagon = new Canvas([-.25,.5,0],[1,0,0],[0,.5,0],[1,0,0],[.25,.5,0],[1,0,0],[-.5,.25,0],[1,0,0],[-.25,.25,0],[1,0,0],
+[0,.25,0],[1,0,0],[.25,.25,0],[1,0,0],[.5,.25,0],[1,0,0],[-.5,-.25,0],[1,0,0],[-.25,-.25,0],[1,0,0],
+[0,-.25,0],[1,0,0],[.25,-.25,0],[1,0,0],[.5,-.25,0],[1,0,0],[-.25,-.5,0],[1,0,0],[0,-.5,0],[1,0,0],
+[.25,-.5,0],[1,0,0]
+
+
+);
 octagon.render();
 
 puzzleShapes();
