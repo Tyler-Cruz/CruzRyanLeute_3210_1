@@ -138,44 +138,56 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
   }	
 }
 
-  function puzzleShapes(){
-  let shapes = [];
+function puzzleShapes(){
+    let shapes = [];
 
-  
-    
     // Create 10 shapes (random rectangles and triangles)
-    for(let i = 0; i < 6; i++) {
+
+    // Create squares as pairs of random triangles
+    for(let i = 0; i < 2; i++) {
         let randX = getRandom(-0.3, 0.3);
         let randY = getRandom(-0.3, 0.3);
         
-        // Create rectangle shapes as pairs of triangles
         let square = new Square(
-            [randX, randY, 0], [Math.random(), 0, 0], 
-            [randX + 0.25, randY, 0], [0, Math.random(), 0], 
-            [randX + 0.25, randY + 0.25, 0], [0, 0, Math.random()], 
-            [randX, randY + 0.25, 0], [Math.random(), Math.random(), 0]
+            [randX * 2, randY * 2, 0], [Math.random(), 0, 0], 
+            [(randX + 0.25) * 2, randY * 2, 0], [0, Math.random(), 0], 
+            [(randX + 0.25) * 2, (randY + 0.25) * 2, 0], [0, 0, Math.random()], 
+            [randX * 2, (randY + 0.25) * 2, 0], [Math.random(), Math.random(), 0]
         );
         shapes.push(square);
     }
     
-    // Create random triangles
-    for(let i = 0; i < 4; i++) {
+    //create random triangles with hypotenuse facing right
+    for(let i = 0; i < 5; i++) {
         let randX = getRandom(-0.5, 0.5);
         let randY = getRandom(-0.5, 0.5);
         
-        let triangle = new pieceTriangle(
+        let triangleRight = new pieceTriangle(
             [randX, randY, 0], [Math.random(), 0, 0],
-            [randX + 0.25, randY, 0], [0, Math.random(), 0], 
-            [randX, randY + 0.25, 0], [0, 0, Math.random()]
+            [(randX + 0.25), randY, 0], [0, Math.random(), 0], 
+            [randX, (randY + 0.25), 0], [0, 0, Math.random()]
         );
-        shapes.push(triangle);
+        shapes.push(triangleRight);
+    }
+
+    //create random triangles with hypotenuse facing left
+    for(let i = 0; i < 5; i++) {
+        let randX = getRandom(-0.5, 0.5);
+        let randY = getRandom(-0.5, 0.5);
+        
+        let triangleLeft = new pieceTriangle(
+        [(randX + 0.25), randY, 0], [Math.random(), 0, 0], 
+        [randX, randY, 0], [0, Math.random(), 0],          
+        [(randX + 0.25), (randY - 0.25), 0], [0, 0, Math.random()] 
+        );
+
+        shapes.push(triangleLeft);
     }
     
     // Render the shapes
     shapes.forEach(shape => shape.render());
-
-
 }
+
 
 
 var scene = new THREE.Scene();
