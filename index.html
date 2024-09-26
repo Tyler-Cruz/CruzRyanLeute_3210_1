@@ -11,10 +11,6 @@
 import * as THREE from 'three';
 import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
 
-//random positions
-function getRandom(min, max){
-  return Math.random() * (max - min) + min;
-}
 
 //creates a canvas in the shape of an octagon
 function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h, hCol, i, iCol, j, jCol, k, kCol, l, lCol, m, mCol, n, nCol, o, oCol, p, pCol){
@@ -118,8 +114,6 @@ function Canvas2(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, 
     }
 }
 
-//distance for snap
-
 
 // Create the object to represent a triangle
 function Triangle (a, aCol, b, bCol, c, cCol) {
@@ -173,11 +167,11 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
     geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(this.colors), 3 ) );
     // Indicate that the material's vertexColors are based on the color attribute of vertexes
     var material = new THREE.MeshBasicMaterial( { vertexColors: true } );
-    this.mesh= new THREE.Mesh( geometry, material );
-    scene.add(this.mesh);
+    this.mesh2= new THREE.Mesh( geometry, material );
+    scene.add(this.mesh2);
 
     //add mesh to drag list
-    draggableObjects.push(this.mesh);
+    draggableObjects.push(this.mesh2);
 
   }	
 }
@@ -214,6 +208,11 @@ var octagon2 = new Canvas2([-.25,.5,0],[1,0,1],[0,.5,0],[1,1,0],[.25,.5,0],[0,1,
 
 octagon.render();
 octagon2.render();
+
+draggableObjects.forEach((piece) => {
+    // Set random positions for x and y, within a certain range, e.g., -400 to 400
+    piece.position.set(Math.random() * 5 - 2.5, Math.random() * 3 - 1.5, 0);
+});
 
 
 //Drag setup
