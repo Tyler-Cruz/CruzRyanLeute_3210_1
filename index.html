@@ -214,6 +214,11 @@ controls.addEventListener('dragend', function (event) {
     event.object.material.opacity = 1; 
 });
 
+//Something New: Audio
+//loads the downloaded song in from the files
+let bMusic = new Audio('elevator-music-kevin-macleod-background-music-hd-128-ytshorts.savetube.me.mp3');
+//autoplays the sound from the background
+bMusic.play();
 
 // Essentially, this creates the "Frames-per-second" loop
 function animate() {
