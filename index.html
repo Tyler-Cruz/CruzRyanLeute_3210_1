@@ -69,8 +69,8 @@ function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h
 
 // An object to produce a Square
 function Square( a, aCol, b, bCol, c, cCol, d, dCol ) {
-  this.tri1 = new Triangle( a, aCol, b, bCol, c, cCol );
-  this.tri2 = new Triangle( a, aCol, c, cCol, d, dCol );
+  this.tri1 = new pieceTriangle( a, aCol, b, bCol, c, cCol );
+  this.tri2 = new pieceTriangle( a, aCol, c, cCol, d, dCol );
   
   this.render = function() {
     this.tri1.render();
@@ -80,6 +80,34 @@ function Square( a, aCol, b, bCol, c, cCol, d, dCol ) {
 
 // Create the object to represent a triangle
 function Triangle (a, aCol, b, bCol, c, cCol) {
+    // Build the vertices and colors manually by creating arrays
+    this.vertices = [
+      a[0], a[1], a[2],
+      b[0], b[1], b[2],
+      c[0], c[1], c[2],
+    ];
+    this.colors = [
+      aCol[0], aCol[1], aCol[2],
+      bCol[0], bCol[1], bCol[2],
+      cCol[0], cCol[1], cCol[2]
+    ];
+
+  // The function that actually adds the triangle geometry to the scene
+  this.render = function() {
+    var geometry = new THREE.BufferGeometry();
+    // Set the "position" attribute accordingly
+    // Note: itemSize = 3 (second argument) because there are 3 values (components) per vertex
+    geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(this.vertices), 3 ) );
+    geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(this.colors), 3 ) );
+    // Indicate that the material's vertexColors are based on the color attribute of vertexes
+    var material = new THREE.MeshBasicMaterial( { vertexColors: true } );
+    this.mesh= new THREE.Mesh( geometry, material );
+    scene.add(this.mesh);
+
+  }	
+}
+// specific triangle function definition so that only puzzle pieces can be dragged
+function pieceTriangle (a, aCol, b, bCol, c, cCol) {
     // Build the vertices and colors manually by creating arrays
     this.vertices = [
       a[0], a[1], a[2],
@@ -133,7 +161,7 @@ function puzzleShapes(){
         let randX = getRandom(-0.5, 0.5);
         let randY = getRandom(-0.5, 0.5);
         
-        let triangle = new Triangle(
+        let triangle = new pieceTriangle(
             [randX, randY, 0], [Math.random(), 0, 0],
             [randX + 0.15, randY, 0], [0, Math.random(), 0], 
             [randX, randY + 0.15, 0], [0, 0, Math.random()]
@@ -168,10 +196,8 @@ var draggableObjects = [];
 var octagon = new Canvas([-.25,.5,0],[1,0,0],[0,.5,0],[1,0,0],[.25,.5,0],[1,0,0],[-.5,.25,0],[1,0,0],[-.25,.25,0],[1,0,0],
 [0,.25,0],[1,0,0],[.25,.25,0],[1,0,0],[.5,.25,0],[1,0,0],[-.5,-.25,0],[1,0,0],[-.25,-.25,0],[1,0,0],
 [0,-.25,0],[1,0,0],[.25,-.25,0],[1,0,0],[.5,-.25,0],[1,0,0],[-.25,-.5,0],[1,0,0],[0,-.5,0],[1,0,0],
-[.25,-.5,0],[1,0,0]
+[.25,-.5,0],[1,0,0]);
 
-
-);
 octagon.render();
 
 puzzleShapes();
