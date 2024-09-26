@@ -141,10 +141,7 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
   function puzzleShapes(){
   let shapes = [];
 
-  const octagonBoundingBox = getBoundingBox([
-        [-0.5, 0.5], [0.5, 0.5], [0.5, -0.5], [-0.5, -0.5], 
-        [-0.3, 0.5], [0.3, 0.5], [0.3, -0.5], [-0.3, -0.5]
-    ]);
+  
     
     // Create 10 shapes (random rectangles and triangles)
     for(let i = 0; i < 6; i++) {
@@ -154,9 +151,9 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
         // Create rectangle shapes as pairs of triangles
         let square = new Square(
             [randX, randY, 0], [Math.random(), 0, 0], 
-            [randX + 0.15, randY, 0], [0, Math.random(), 0], 
-            [randX + 0.15, randY + 0.15, 0], [0, 0, Math.random()], 
-            [randX, randY + 0.15, 0], [Math.random(), Math.random(), 0]
+            [randX + 0.25, randY, 0], [0, Math.random(), 0], 
+            [randX + 0.25, randY + 0.25, 0], [0, 0, Math.random()], 
+            [randX, randY + 0.25, 0], [Math.random(), Math.random(), 0]
         );
         shapes.push(square);
     }
@@ -168,8 +165,8 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
         
         let triangle = new pieceTriangle(
             [randX, randY, 0], [Math.random(), 0, 0],
-            [randX + 0.15, randY, 0], [0, Math.random(), 0], 
-            [randX, randY + 0.15, 0], [0, 0, Math.random()]
+            [randX + 0.25, randY, 0], [0, Math.random(), 0], 
+            [randX, randY + 0.25, 0], [0, 0, Math.random()]
         );
         shapes.push(triangle);
     }
