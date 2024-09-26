@@ -138,42 +138,47 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
   }	
 }
 
-//   function puzzleShapes(){
-//   let shapes = [];
+  function puzzleShapes(){
+  let shapes = [];
+
+  const octagonBoundingBox = getBoundingBox([
+        [-0.5, 0.5], [0.5, 0.5], [0.5, -0.5], [-0.5, -0.5], 
+        [-0.3, 0.5], [0.3, 0.5], [0.3, -0.5], [-0.3, -0.5]
+    ]);
     
-//     // Create 10 shapes (random rectangles and triangles)
-//     for(let i = 0; i < 6; i++) {
-//         let randX = getRandom(-0.3, 0.3);
-//         let randY = getRandom(-0.3, 0.3);
+    // Create 10 shapes (random rectangles and triangles)
+    for(let i = 0; i < 6; i++) {
+        let randX = getRandom(-0.3, 0.3);
+        let randY = getRandom(-0.3, 0.3);
         
-//         // Create rectangle shapes as pairs of triangles
-//         let square = new Square(
-//             [randX, randY, 0], [Math.random(), 0, 0], 
-//             [randX + 0.15, randY, 0], [0, Math.random(), 0], 
-//             [randX + 0.15, randY + 0.15, 0], [0, 0, Math.random()], 
-//             [randX, randY + 0.15, 0], [Math.random(), Math.random(), 0]
-//         );
-//         shapes.push(square);
-//     }
+        // Create rectangle shapes as pairs of triangles
+        let square = new Square(
+            [randX, randY, 0], [Math.random(), 0, 0], 
+            [randX + 0.15, randY, 0], [0, Math.random(), 0], 
+            [randX + 0.15, randY + 0.15, 0], [0, 0, Math.random()], 
+            [randX, randY + 0.15, 0], [Math.random(), Math.random(), 0]
+        );
+        shapes.push(square);
+    }
     
-//     // Create random triangles
-//     for(let i = 0; i < 4; i++) {
-//         let randX = getRandom(-0.5, 0.5);
-//         let randY = getRandom(-0.5, 0.5);
+    // Create random triangles
+    for(let i = 0; i < 4; i++) {
+        let randX = getRandom(-0.5, 0.5);
+        let randY = getRandom(-0.5, 0.5);
         
-//         let triangle = new pieceTriangle(
-//             [randX, randY, 0], [Math.random(), 0, 0],
-//             [randX + 0.15, randY, 0], [0, Math.random(), 0], 
-//             [randX, randY + 0.15, 0], [0, 0, Math.random()]
-//         );
-//         shapes.push(triangle);
-//     }
+        let triangle = new pieceTriangle(
+            [randX, randY, 0], [Math.random(), 0, 0],
+            [randX + 0.15, randY, 0], [0, Math.random(), 0], 
+            [randX, randY + 0.15, 0], [0, 0, Math.random()]
+        );
+        shapes.push(triangle);
+    }
     
-//     // Render the shapes
-//     shapes.forEach(shape => shape.render());
+    // Render the shapes
+    shapes.forEach(shape => shape.render());
 
 
-// }
+}
 
 
 var scene = new THREE.Scene();
@@ -201,29 +206,29 @@ var octagon = new Canvas([-.25,.5,0],[1,0,0],[0,.5,0],[1,0,0],[.25,.5,0],[1,0,0]
 
 octagon.render();
 
-// 10 hardcoded triangular pieces (basis for location, dimensions/shape fo can be changed)
-var piece1 = new pieceTriangle([0.3,0.3,0], [1,0,0], [0.5,0.3,0], [1,0,0], [0.5,0.5,0], [1,0,0]);
-piece1.render();
-var piece2 = new pieceTriangle([-0.3,-0.3,0], [1,0,0], [-0.5,-0.3,0], [1,0,0], [-0.5,-0.5,0], [1,0,0]);
-piece2.render();
-var piece3 = new pieceTriangle([0.5,-0.5,0], [1,0,0], [0.7,-0.5,0], [1,0,0], [0.7,-0.3,0], [1,0,0]);
-piece3.render();
-var piece4 = new pieceTriangle([0.4,0,0], [1,0,0], [0.6,0,0], [1,0,0], [0.6,0.2,0], [1,0,0]);
-piece4.render();
-var piece5 = new pieceTriangle([-0.3,0.6,0], [1,0,0], [-0.3,0.4,0], [1,0,0], [-0.1,0.4,0], [1,0,0]);
-piece5.render();
-var piece6 = new pieceTriangle([-0.5,0.5,0], [1,0,0], [-0.5,0.3,0], [1,0,0], [-0.3,0.3,0], [1,0,0]);
-piece6.render();
-var piece7 = new pieceTriangle([0,0.4,0], [1,0,0], [0.2,0.6,0], [1,0,0], [0,0.6,0], [1,0,0]);
-piece7.render();
-var piece8 = new pieceTriangle([0,-0.4,0], [1,0,0], [0,-0.6,0], [1,0,0], [0.2,-0.6,0], [1,0,0]);
-piece8.render();
-var piece9 = new pieceTriangle([-0.1,-0.7,0], [1,0,0], [-0.3,-0.7,0], [1,0,0], [-0.3,-0.9,0], [1,0,0]);
-piece9.render();
-var piece10 = new pieceTriangle([-0.5,0,0], [1,0,0], [-0.5,0.2,0], [1,0,0], [-0.7,0,0], [1,0,0]);
-piece10.render();
+// // 10 hardcoded triangular pieces (basis for location, dimensions/shape fo can be changed)
+// var piece1 = new pieceTriangle([0.3,0.3,0], [1,0,0], [0.5,0.3,0], [1,0,0], [0.5,0.5,0], [1,0,0]);
+// piece1.render();
+// var piece2 = new pieceTriangle([-0.3,-0.3,0], [1,0,0], [-0.5,-0.3,0], [1,0,0], [-0.5,-0.5,0], [1,0,0]);
+// piece2.render();
+// var piece3 = new pieceTriangle([0.5,-0.5,0], [1,0,0], [0.7,-0.5,0], [1,0,0], [0.7,-0.3,0], [1,0,0]);
+// piece3.render();
+// var piece4 = new pieceTriangle([0.4,0,0], [1,0,0], [0.6,0,0], [1,0,0], [0.6,0.2,0], [1,0,0]);
+// piece4.render();
+// var piece5 = new pieceTriangle([-0.3,0.6,0], [1,0,0], [-0.3,0.4,0], [1,0,0], [-0.1,0.4,0], [1,0,0]);
+// piece5.render();
+// var piece6 = new pieceTriangle([-0.5,0.5,0], [1,0,0], [-0.5,0.3,0], [1,0,0], [-0.3,0.3,0], [1,0,0]);
+// piece6.render();
+// var piece7 = new pieceTriangle([0,0.4,0], [1,0,0], [0.2,0.6,0], [1,0,0], [0,0.6,0], [1,0,0]);
+// piece7.render();
+// var piece8 = new pieceTriangle([0,-0.4,0], [1,0,0], [0,-0.6,0], [1,0,0], [0.2,-0.6,0], [1,0,0]);
+// piece8.render();
+// var piece9 = new pieceTriangle([-0.1,-0.7,0], [1,0,0], [-0.3,-0.7,0], [1,0,0], [-0.3,-0.9,0], [1,0,0]);
+// piece9.render();
+// var piece10 = new pieceTriangle([-0.5,0,0], [1,0,0], [-0.5,0.2,0], [1,0,0], [-0.7,0,0], [1,0,0]);
+// piece10.render();
 
-//puzzleShapes();
+puzzleShapes();
 
 //Drag setup
 var controls = new DragControls(draggableObjects, camera, renderer.domElement);
