@@ -145,7 +145,7 @@ function Triangle (a, aCol, b, bCol, c, cCol) {
 }
 
 // specific triangle function definition so that only puzzle pieces can be dragged
-function pieceTriangle (a, aCol, b, bCol, c, cCol, targetPosition) {
+function pieceTriangle (a, aCol, b, bCol, c, cCol) {
     // Build the vertices and colors manually by creating arrays
     this.vertices = [
       a[0], a[1], a[2],
@@ -157,6 +157,8 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol, targetPosition) {
       bCol[0], bCol[1], bCol[2],
       cCol[0], cCol[1], cCol[2]
     ];
+
+  
 
     
   // The function that actually adds the triangle geometry to the scene
@@ -174,12 +176,10 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol, targetPosition) {
     //add mesh to drag list
     draggableObjects.push(this.mesh2);
 
-    this.userData = {
-      targetPosition: targetPosition
-    };
-
   }	
 }
+
+
 
 
 
@@ -200,15 +200,34 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // Array for objects to drag
 var draggableObjects = [];
 
+const snapPositions = [
+    new THREE.Vector3(-0.25, 0.5, 0),
+    new THREE.Vector3(0, 0.5, 0),
+    new THREE.Vector3(0.25, 0.5, 0),
+    new THREE.Vector3(-0.5, 0.25, 0),
+    new THREE.Vector3(-0.25, 0.25, 0),
+    new THREE.Vector3(0, 0.25, 0),
+    new THREE.Vector3(0.25, 0.25, 0),
+    new THREE.Vector3(0.5, 0.25, 0),
+    new THREE.Vector3(-0.5, -0.25, 0),
+    new THREE.Vector3(-0.25, -0.25, 0),
+    new THREE.Vector3(0, -0.25, 0),
+    new THREE.Vector3(0.25, -0.25, 0),
+    new THREE.Vector3(0.5, -0.25, 0),
+    new THREE.Vector3(-0.25, -0.5, 0),
+    new THREE.Vector3(0, -0.5, 0),
+    new THREE.Vector3(0.25, -0.5, 0),
+];
+
 //creates a red octagon to be the canvas of the puzzle
 var octagon = new Canvas([-.25,.5,0],[1,0,0],[0,.5,0],[1,0,0],[.25,.5,0],[1,0,0],[-.5,.25,0],[1,0,0],[-.25,.25,0],[1,0,0],
 [0,.25,0],[1,0,0],[.25,.25,0],[1,0,0],[.5,.25,0],[1,0,0],[-.5,-.25,0],[1,0,0],[-.25,-.25,0],[1,0,0],
 [0,-.25,0],[1,0,0],[.25,-.25,0],[1,0,0],[.5,-.25,0],[1,0,0],[-.25,-.5,0],[1,0,0],[0,-.5,0],[1,0,0],
 [.25,-.5,0],[1,0,0]);
 
-var octagon2 = new Canvas2([-.25,.5,0],[1,0,1],[0,.5,0],[1,1,0],[.25,.5,0],[0,1,0],[-.5,.25,0],[0,0,1],[-.25,.25,0],[0,1,1],
+var octagon2 = new Canvas2([-.25,.5,0],[1,0,1],[0,.5,0],[1,1,0],[.25,.5,0],[0,1,0],[-.5,.25,0],[0,0,0],[-.25,.25,0],[0,1,1],
 [0,.25,0],[0,1,0],[.25,.25,0],[1,1,1],[.5,.25,0],[1,0,1],[-.5,-.25,0],[0,1,0],[-.25,-.25,0],[0,0,0],
-[0,-.25,0],[1,1,1],[.25,-.25,0],[0,1,0],[.5,-.25,0],[1,1,0],[-.25,-.5,0],[0,1,0],[0,-.5,0],[0,0,1],
+[0,-.25,0],[1,1,1],[.25,-.25,0],[0,1,0],[.5,-.25,0],[1,1,0],[-.25,-.5,0],[0,1,0],[0,-.5,0],[0,1,0],
 [.25,-.5,0],[0,1,0]);
 
 octagon.render();
@@ -221,7 +240,6 @@ draggableObjects.forEach((piece) => {
 
 
 
-//Drag setup
 var controls = new DragControls(draggableObjects, camera, renderer.domElement);
 
 // event listeners for drag control events
@@ -231,7 +249,27 @@ controls.addEventListener('dragstart', function (event) {
 
 controls.addEventListener('dragend', function (event) {
     event.object.material.opacity = 1; 
+
+// Snap logic
+let closestSnapPosition = null;
+    let closestDistance = Infinity;
+
+    // check the distance to each snap position
+    snapPositions.forEach(snapPosition => {
+        const distance = event.object.position.distanceTo(snapPosition);
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestSnapPosition = snapPosition;
+        }
+    });
+
+    // snap in if close
+    if (closestDistance < 0.1) {
+        event.object.position.copy(closestSnapPosition);
+        event.object.material.color.set(0x00ff00);
+    }
 });
+
 
 //Something New: Audio
 //loads the downloaded song in from the files
