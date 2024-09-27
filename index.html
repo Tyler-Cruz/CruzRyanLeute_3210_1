@@ -244,11 +244,14 @@ var controls = new DragControls(draggableObjects, camera, renderer.domElement);
 
 // event listeners for drag control events
 controls.addEventListener('dragstart', function (event) {
-    event.object.material.opacity = 0.5;
+    event.object.material.opacity = 0.5; //slightly decrease opacity to highlight
+    event.object.material.color.set(0xffffff); //slightly change color to highlight
+    event.object.scale.set(1.2, 1.2, 1); // Slightly increase the size to highlight
 });
 
 controls.addEventListener('dragend', function (event) {
-    event.object.material.opacity = 1; 
+    event.object.material.opacity = 1; // Reset opacity
+    event.object.scale.set(1, 1, 1); // Reset scale to normal size 
 
 // Snap logic
 let closestSnapPosition = null;
