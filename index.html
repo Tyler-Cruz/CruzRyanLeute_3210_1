@@ -244,6 +244,9 @@ draggableObjects.forEach((piece, index) => {
 
 var controls = new DragControls(draggableObjects, camera, renderer.domElement);
 
+// adding in click sound
+let clickSound = new Audio ('mixkit-modern-technology-select-3124.wav');
+
 // event listeners for drag control events
 // includes functionality to highlight pieces when selected
 controls.addEventListener('dragstart', function (event) {
@@ -266,6 +269,7 @@ const originalPosition = event.object.userData.originalPosition;
     if (distance < 0.1) {
         event.object.position.copy(originalPosition);
         event.object.material.color.set(0x00ff00);
+        clickSound.play(); //plays click sound when piece is correctly placed
     }
 });
 
