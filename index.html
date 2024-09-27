@@ -77,9 +77,9 @@ function Canvas(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h
     }
 }
 
-//creates a canvas in the shape of an octagon
+// Uses octagonal canvas to create triangular puzzle pieces
 function Canvas2(a, aCol, b, bCol, c, cCol, d, dCol, e, eCol, f, fCol, g, gCol, h, hCol, i, iCol, j, jCol, k, kCol, l, lCol, m, mCol, n, nCol, o, oCol, p, pCol){
-    //makes triangles to form the shape of an octagon
+    
     this.tri1 = new pieceTriangle(a, aCol, d, dCol, e, eCol);
     this.tri2 = new pieceTriangle(a, aCol, e, eCol, b, bCol);
     this.tri3 = new pieceTriangle(b, bCol, e, eCol, f, fCol);
@@ -175,7 +175,7 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
   
 
     
-  // The function that actually adds the triangle geometry to the scene
+  // adds the triangle geometry to the scene
   this.render = function() {
     var geometry = new THREE.BufferGeometry();
     // Set the "position" attribute accordingly
@@ -200,15 +200,15 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
 var scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, .1, 3000 );
-camera.position.z = 5;  // Try moving this around!
+camera.position.z = 5;  
 camera.lookAt( new THREE.Vector3(0.0,0.0,0.0));
 scene.add( camera );
 
 var renderer = new THREE.WebGLRenderer({canvas: myCanvas, antialias: true});
 renderer.setClearColor(0x000000);
-// If you want this to span the window, instead of using the myCanvas object, use the window object
+
 renderer.setPixelRatio(document.getElementById('myCanvas').devicePixelRatio);
-// If you want the render to span the window, uncomment this
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Array for objects to drag
@@ -220,13 +220,13 @@ var octagon = new Canvas([-.25,.5,0],[1,0,0],[0,.5,0],[1,0,0],[.25,.5,0],[1,0,0]
 [0,-.25,0],[1,0,0],[.25,-.25,0],[1,0,0],[.5,-.25,0],[1,0,0],[-.25,-.5,0],[1,0,0],[0,-.5,0],[1,0,0],
 [.25,-.5,0],[1,0,0]);
 
-var octagon2 = new Canvas2([-.25,.5,0],[1,0,1],[0,.5,0],[1,1,0],[.25,.5,0],[1,1,1],[-.5,.25,0],[0,0,0],[-.25,.25,0],[0,1,1],
+var pieces = new Canvas2([-.25,.5,0],[1,0,1],[0,.5,0],[1,1,0],[.25,.5,0],[1,1,1],[-.5,.25,0],[0,0,0],[-.25,.25,0],[0,1,1],
 [0,.25,0],[0,0,0],[.25,.25,0],[1,1,1],[.5,.25,0],[1,0,1],[-.5,-.25,0],[0,1,1],[-.25,-.25,0],[0,0,0],
 [0,-.25,0],[1,1,1],[.25,-.25,0],[1,1,0],[.5,-.25,0],[1,1,0],[-.25,-.5,0],[0,0,1],[0,-.5,0],[0,0,1],
 [.25,-.5,0],[0,1,0]);
 
 octagon.render();
-octagon2.render();
+pieces.render();
 
 draggableObjects.forEach((piece, index) => {
     // save the original position before scattering
@@ -245,15 +245,18 @@ draggableObjects.forEach((piece, index) => {
 var controls = new DragControls(draggableObjects, camera, renderer.domElement);
 
 // event listeners for drag control events
+// includes functionality to highlight pieces when selected
 controls.addEventListener('dragstart', function (event) {
-    event.object.material.opacity = 0.5; //slightly decrease opacity to highlight
-    event.object.material.color.set(0xffffff); //slightly change color to highlight
-    event.object.scale.set(1.2, 1.2, 1); // Slightly increase the size to highlight
+    event.object.material.opacity = 0.5; 
+    event.object.material.color.set(0x808080); //adds gray over current piece color to show highlight
+    event.object.scale.set(1, 1, 1); 
+    
 });
 
 controls.addEventListener('dragend', function (event) {
-    event.object.material.opacity = 1; // Reset opacity
-    event.object.scale.set(1, 1, 1); // Reset scale to normal size 
+    event.object.material.opacity = 1; 
+    event.object.material.color.set(0xffffff); //returns color to normal
+    event.object.scale.set(1, 1, 1); 
 
 // calculate distance to the original position
 const originalPosition = event.object.userData.originalPosition;
