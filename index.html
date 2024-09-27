@@ -145,7 +145,7 @@ function Triangle (a, aCol, b, bCol, c, cCol) {
 }
 
 // specific triangle function definition so that only puzzle pieces can be dragged
-function pieceTriangle (a, aCol, b, bCol, c, cCol) {
+function pieceTriangle (a, aCol, b, bCol, c, cCol, targetPosition) {
     // Build the vertices and colors manually by creating arrays
     this.vertices = [
       a[0], a[1], a[2],
@@ -158,6 +158,7 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
       cCol[0], cCol[1], cCol[2]
     ];
 
+    
   // The function that actually adds the triangle geometry to the scene
   this.render = function() {
     var geometry = new THREE.BufferGeometry();
@@ -173,6 +174,10 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
     //add mesh to drag list
     draggableObjects.push(this.mesh2);
 
+    this.userData = {
+      targetPosition: targetPosition
+    };
+
   }	
 }
 
@@ -181,7 +186,7 @@ function pieceTriangle (a, aCol, b, bCol, c, cCol) {
 var scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, .1, 3000 );
-camera.position.z = 3;  // Try moving this around!
+camera.position.z = 5;  // Try moving this around!
 camera.lookAt( new THREE.Vector3(0.0,0.0,0.0));
 scene.add( camera );
 
@@ -210,9 +215,10 @@ octagon.render();
 octagon2.render();
 
 draggableObjects.forEach((piece) => {
-    // Set random positions for x and y, within a certain range, e.g., -400 to 400
-    piece.position.set(Math.random() * 5 - 2.5, Math.random() * 3 - 1.5, 0);
+  //randomly scatter pieces
+    piece.position.set(Math.random() * 4 - 2, Math.random() * 2.5 - 1.25, 0);
 });
+
 
 
 //Drag setup
