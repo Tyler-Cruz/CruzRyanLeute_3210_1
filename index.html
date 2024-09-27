@@ -200,25 +200,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // Array for objects to drag
 var draggableObjects = [];
 
-const snapPositions = [
-    new THREE.Vector3(-0.25, 0.5, 0),
-    new THREE.Vector3(0, 0.5, 0),
-    new THREE.Vector3(0.25, 0.5, 0),
-    new THREE.Vector3(-0.5, 0.25, 0),
-    new THREE.Vector3(-0.25, 0.25, 0),
-    new THREE.Vector3(0, 0.25, 0),
-    new THREE.Vector3(0.25, 0.25, 0),
-    new THREE.Vector3(0.5, 0.25, 0),
-    new THREE.Vector3(-0.5, -0.25, 0),
-    new THREE.Vector3(-0.25, -0.25, 0),
-    new THREE.Vector3(0, -0.25, 0),
-    new THREE.Vector3(0.25, -0.25, 0),
-    new THREE.Vector3(0.5, -0.25, 0),
-    new THREE.Vector3(-0.25, -0.5, 0),
-    new THREE.Vector3(0, -0.5, 0),
-    new THREE.Vector3(0.25, -0.5, 0),
-];
-
 //creates a red octagon to be the canvas of the puzzle
 var octagon = new Canvas([-.25,.5,0],[1,0,0],[0,.5,0],[1,0,0],[.25,.5,0],[1,0,0],[-.5,.25,0],[1,0,0],[-.25,.25,0],[1,0,0],
 [0,.25,0],[1,0,0],[.25,.25,0],[1,0,0],[.5,.25,0],[1,0,0],[-.5,-.25,0],[1,0,0],[-.25,-.25,0],[1,0,0],
@@ -233,8 +214,15 @@ var octagon2 = new Canvas2([-.25,.5,0],[1,0,1],[0,.5,0],[1,1,0],[.25,.5,0],[1,1,
 octagon.render();
 octagon2.render();
 
-draggableObjects.forEach((piece) => {
-  //randomly scatter pieces
+draggableObjects.forEach((piece, index) => {
+    // save the original position before scattering
+    piece.userData.originalPosition = new THREE.Vector3(
+        piece.position.x,
+        piece.position.y,
+        piece.position.z
+    );
+    
+    // randomly scatter the pieces
     piece.position.set(Math.random() * 4 - 2, Math.random() * 2.5 - 1.25, 0);
 });
 
@@ -253,22 +241,13 @@ controls.addEventListener('dragend', function (event) {
     event.object.material.opacity = 1; // Reset opacity
     event.object.scale.set(1, 1, 1); // Reset scale to normal size 
 
-// Snap logic
-let closestSnapPosition = null;
-    let closestDistance = Infinity;
+// Calculate distance to the original position
+const originalPosition = event.object.userData.originalPosition;
+    const distance = event.object.position.distanceTo(originalPosition);
 
-    // check the distance to each snap position
-    snapPositions.forEach(snapPosition => {
-        const distance = event.object.position.distanceTo(snapPosition);
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closestSnapPosition = snapPosition;
-        }
-    });
-
-    // snap in if close
-    if (closestDistance < 0.1) {
-        event.object.position.copy(closestSnapPosition);
+    // Snap to original position if within threshold (e.g., 0.1)
+    if (distance < 0.1) {
+        event.object.position.copy(originalPosition);
         event.object.material.color.set(0x00ff00);
     }
 });
