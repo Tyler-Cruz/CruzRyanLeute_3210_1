@@ -255,11 +255,11 @@ controls.addEventListener('dragend', function (event) {
     event.object.material.opacity = 1; // Reset opacity
     event.object.scale.set(1, 1, 1); // Reset scale to normal size 
 
-// Calculate distance to the original position
+// calculate distance to the original position
 const originalPosition = event.object.userData.originalPosition;
     const distance = event.object.position.distanceTo(originalPosition);
 
-    // Snap to original position if within threshold (e.g., 0.1)
+    // Snap to original position
     if (distance < 0.1) {
         event.object.position.copy(originalPosition);
         event.object.material.color.set(0x00ff00);
